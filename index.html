@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+    <title>Weather App</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="weather-app-wrapper">
+        <div class="weather-app">
+          <form id="search-form">
+            <div class="row">
+              <div class="col-9">
+                <input
+                  type="search"
+                  id="city-input"
+                  class="form-control"
+                  placeholder="Type a city..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="col-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  class="btn btn-primary w-100"
+                />
+              </div>
+            </div>
+          </form>
+          <div class="city-name">
+            Results for
+            <strong><span id="city"></span>, <span id="country"></span></strong>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="d-flex weather-temperature">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAUhJREFUeNrt230NgzAQh2GkIAUJyJgMJCABCZNQKcxBHdyOpFkyEkYGV9oL75Lff2Rwz8pXe2tEpLlzGgAAAAAAAAAAYHsDg4+8Hp1m0ATNrJGNzGmbZdvOZN+lAFLRkyb+KHgvMX1H5wYgFR5OFL2VcATiMgA9uFbzzFD4Oss+2qoA9ID6k0P9yKnRVwGgBzJeWPg6Y1GAdIGSwpmKAFRS/C5CFoDCw/6v08EcIF3wpNL0WQHSrS5WDBDXt0hrgGfFxX+eE7IApCc8cZIuB0BwBBBMAZz9+l+jwApgcggwWQJEhwDRBMDp8P+cBhYAg2OAwQIgOAYIFgCzY4DZAkBcB4C7AywvcIwAAADgNsiDEI/CvAzxOsyECFNiTIoyLc7CCEtjLI6yPE6DBC0yNEnRJkejJK2yNEvTLs8fJgAAAAAAAADg1nkDlR7XfJiH1ggAAAAASUVORK5CYII="
+                  alt="Clear"
+                  id="icon"
+                />
+                <div>
+                  <strong id="temperature"></strong
+                  ><span class="units"
+                    ><a href="#" id="celsiusLink" class="active">°C</a>|<a
+                      href="#"
+                      id="fahrenheitLink"
+                      >°F</a
+                    ></span
+                  >
+                  <ul class="small-li">
+                    <li>Humidity: <span id="humidity"></span> %</li>
+                    <li>Wind: <span id="wind"></span> km/h</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <strong class="m-font">Weather</strong>
+              <ul>
+                <li id="date"></li>
+                <li id="description"></li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="weather-forecast">
+                <div class="weather-forecast-day">Sunday</div>
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAaxJREFUaN7tmdGNhCAQhi1hS7CELcEGLrGELcESpgRLsAQ7uCvBV98swQ44uIwXzhMYgQE2geR/MZPN/8nv4LiNEKJ5ZzUVoAJUgApQAaICUNe6rh3q2SRcQQDS7ENqktqlhKZNCooGkAZbNCosmkoGWBzmD0FxANLUi2j+kNqtXmpEDepaToD5JgDb7vgCfEUCUBrfHUCpSwKAbRMu2maoZnYAdUAxGD+0swIwm1dx7A3nzLlZzOfuRQVYmMy/MJYDRhPwdaS13LBdh3ACYP/mMA+W03yjPjMUAODIPN557252B2DiyD1GM3QHfyKYegdAe0hj/J6K29MGMETO/YPhINyOnbgCaGP2egbzvx3N1kbHQnJv3d2gkTLXijYTV4AMIyXoB4pvzcfn2kstvjW+8wBo3QSu3ucpNWgOpFyQxhpfAOdoSB0fswBEjtA/cyouKjaUmhCAzjWUU2oM5oS6TqnJ3oWSAVA+g/h8KmEHOGKgjX9gioqtJicAmIaJ88Nqq7nT4y8AjDXZI2SA+gNgq7kDAK4PUJSabAAp1/kcsNXU/8gqQAWoAGXpGzmRTGmgvhAvAAAAAElFTkSuQmCC"
+                  alt="rainy"
+                />
+                <div class="weather-forecast-temp">
+                  <span class="weather-forecast-max">18°</span>
+                  <span class="weather-forecast-min">12°</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <small
+          >This project was coded by Fatemeh Dashtizadeh and is
+          <a
+            href="https://github.com/minaDz/SheCodes-Plus-Week-7-Homework"
+            target="_blank"
+            >open-source on GitHub</a
+          >
+          and
+          <a href="https://clever-daifuku-27426b.netlify.app/" target="_blank">
+            hosted on Netlify</a
+          ></small
+        >
+      </div>
+    </div>
+    <script src="src/app.js"></script>
+  </body>
+</html>
