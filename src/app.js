@@ -63,26 +63,35 @@ function displayCelsius(event){
     temperature.innerHTML=Math.round(celciusTemperature);
 }
 
+function formatDay(timestamp){
+    let date = new Date(timestamp*1000);
+    let day = date.getDay();
+    let days=["Sun","Mon","Tues","Wed","Thu","Fri","Sat"];
+    return days[day];
+}
 function displayForecast(response){
-    console.log(response.data.daily);
+    let forecast=response.data.daily;
     let forecastElement= document.querySelector("#forecast");
     let forecastHtml = `<div class=row>`;
-    let days=["Mon","Tue","Wed","Thu","Fri","Sat"];
-    days.forEach(function(day){
+    
+    forecast.forEach(function(forecastday,index){
+        if (index !== 0 ){
         forecastHtml = forecastHtml + `
-        <div class="col">
+        <div class="col-2" >
         <div class="weather-forecast" id="forecast">
-          <div class="weather-forecast-day">${day}</div>
+          <div class="weather-forecast-day">${formatDay(forecastday.time)}</div>
           <img
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAaxJREFUaN7tmdGNhCAQhi1hS7CELcEGLrGELcESpgRLsAQ7uCvBV98swQ44uIwXzhMYgQE2geR/MZPN/8nv4LiNEKJ5ZzUVoAJUgApQAaICUNe6rh3q2SRcQQDS7ENqktqlhKZNCooGkAZbNCosmkoGWBzmD0FxANLUi2j+kNqtXmpEDepaToD5JgDb7vgCfEUCUBrfHUCpSwKAbRMu2maoZnYAdUAxGD+0swIwm1dx7A3nzLlZzOfuRQVYmMy/MJYDRhPwdaS13LBdh3ACYP/mMA+W03yjPjMUAODIPN557252B2DiyD1GM3QHfyKYegdAe0hj/J6K29MGMETO/YPhINyOnbgCaGP2egbzvx3N1kbHQnJv3d2gkTLXijYTV4AMIyXoB4pvzcfn2kstvjW+8wBo3QSu3ucpNWgOpFyQxhpfAOdoSB0fswBEjtA/cyouKjaUmhCAzjWUU2oM5oS6TqnJ3oWSAVA+g/h8KmEHOGKgjX9gioqtJicAmIaJ88Nqq7nT4y8AjDXZI2SA+gNgq7kDAK4PUJSabAAp1/kcsNXU/8gqQAWoAGXpGzmRTGmgvhAvAAAAAElFTkSuQmCC"
+            src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${forecastday.condition.icon}.png"
             alt="rainy"
+            id="forecast-img"
           />
           <div class="weather-forecast-temp">
-            <span class="weather-forecast-max">18°</span>
-            <span class="weather-forecast-min">12°</span>
+            <span class="weather-forecast-max">${Math.round(forecastday.temperature.maximum)}°</span>
+            <span class="weather-forecast-min">${Math.round(forecastday.temperature.minimum)}°</span>
           </div>
         </div>
       </div>`
+    }
     });
     forecastHtml =forecastHtml+ `</div>`;
     forecastElement.innerHTML=forecastHtml;
