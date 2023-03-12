@@ -6,8 +6,13 @@ function displayDate(time){
     let minute= date.getMinutes();
     return `${day} ${hour}:${minute}`;
 }
+
+function getForecast(coordinates){
+    let apiKey="618babd8a78c104b6a8d38473t84aefo";
+    let apiUrl=`https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}`;
+    axios.get(apiUrl).then(displayForecast);
+}
 function displayTemperature(response){
-    console.log(response.data);
     let temperature= document.querySelector("#temperature");
     let humidity= document.querySelector("#humidity");
     let wind= document.querySelector("#wind");
@@ -26,6 +31,7 @@ function displayTemperature(response){
     icon.setAttribute("src",response.data.condition.icon_url);
     icon.setAttribute("alt",response.data.condition.description);
     celciusTemperature =response.data.temperature.current;
+    getForecast(response.data.coordinates);
 }
 
 function search(city){
@@ -55,6 +61,32 @@ function displayCelsius(event){
     fahrenheitLink.classList.remove("active");
     let temperature = document.querySelector("#temperature");
     temperature.innerHTML=Math.round(celciusTemperature);
+}
+
+function displayForecast(response){
+    console.log(response.data.daily);
+    let forecastElement= document.querySelector("#forecast");
+    let forecastHtml = `<div class=row>`;
+    let days=["Mon","Tue","Wed","Thu","Fri","Sat"];
+    days.forEach(function(day){
+        forecastHtml = forecastHtml + `
+        <div class="col">
+        <div class="weather-forecast" id="forecast">
+          <div class="weather-forecast-day">${day}</div>
+          <img
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAaxJREFUaN7tmdGNhCAQhi1hS7CELcEGLrGELcESpgRLsAQ7uCvBV98swQ44uIwXzhMYgQE2geR/MZPN/8nv4LiNEKJ5ZzUVoAJUgApQAaICUNe6rh3q2SRcQQDS7ENqktqlhKZNCooGkAZbNCosmkoGWBzmD0FxANLUi2j+kNqtXmpEDepaToD5JgDb7vgCfEUCUBrfHUCpSwKAbRMu2maoZnYAdUAxGD+0swIwm1dx7A3nzLlZzOfuRQVYmMy/MJYDRhPwdaS13LBdh3ACYP/mMA+W03yjPjMUAODIPN557252B2DiyD1GM3QHfyKYegdAe0hj/J6K29MGMETO/YPhINyOnbgCaGP2egbzvx3N1kbHQnJv3d2gkTLXijYTV4AMIyXoB4pvzcfn2kstvjW+8wBo3QSu3ucpNWgOpFyQxhpfAOdoSB0fswBEjtA/cyouKjaUmhCAzjWUU2oM5oS6TqnJ3oWSAVA+g/h8KmEHOGKgjX9gioqtJicAmIaJ88Nqq7nT4y8AjDXZI2SA+gNgq7kDAK4PUJSabAAp1/kcsNXU/8gqQAWoAGXpGzmRTGmgvhAvAAAAAElFTkSuQmCC"
+            alt="rainy"
+          />
+          <div class="weather-forecast-temp">
+            <span class="weather-forecast-max">18°</span>
+            <span class="weather-forecast-min">12°</span>
+          </div>
+        </div>
+      </div>`
+    });
+    forecastHtml =forecastHtml+ `</div>`;
+    forecastElement.innerHTML=forecastHtml;
+
 }
 
 
