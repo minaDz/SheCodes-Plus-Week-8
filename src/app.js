@@ -47,21 +47,6 @@ function handelSubmit(event){
     search(input.value);
 }
 
-function displayFahrenheit(event){
-    event.preventDefault();
-    fahrenheitLink.classList.add("active");
-    celsiusLink.classList.remove("active");
-    let temperature = document.querySelector("#temperature");
-    temperature.innerHTML = Math.round((celciusTemperature*9)/5+32);
-}
-
-function displayCelsius(event){
-    event.preventDefault();
-    celsiusLink.classList.add("active");
-    fahrenheitLink.classList.remove("active");
-    let temperature = document.querySelector("#temperature");
-    temperature.innerHTML=Math.round(celciusTemperature);
-}
 
 function formatDay(timestamp){
     let date = new Date(timestamp*1000);
@@ -99,15 +84,7 @@ function displayForecast(response){
 }
 
 
-let celciusTemperature = null;
-
 let form = document.querySelector("#search-form");
 form.addEventListener("submit",handelSubmit);
-
-let fahrenheitLink = document.querySelector("#fahrenheitLink");
-fahrenheitLink.addEventListener("click",displayFahrenheit);
-
-let celsiusLink = document.querySelector("#celsiusLink");
-celsiusLink.addEventListener("click",displayCelsius);
 
 search("Bushehr");
